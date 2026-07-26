@@ -26,7 +26,7 @@ if (shopData.abonnement_actif) {
 // ==================== WEBSOCKET - NOTIFICATIONS EN DIRECT ====================
 console.log('🔄 Initialisation WebSocket...');
 
-const socket = io('http://localhost:3000', {
+const socket = io('https://cabine-service.onrender.com', {
     transports: ['websocket', 'polling'],
     reconnection: true
 });
@@ -125,7 +125,7 @@ function generateQRCodes() {
     grid.innerHTML = '';
 
     for (let i = 1; i <= cabines; i++) {
-        const url = `http://localhost:3000/cabine?magasin=${encodeURIComponent(shopData.email)}&cabine=${i}`;
+        const url = `https://cabine-service.onrender.com?magasin=${encodeURIComponent(shopData.email)}&cabine=${i}`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
 
         const item = document.createElement('div');
@@ -151,7 +151,7 @@ document.getElementById('logoutBtn').addEventListener('click', function() {
 // ==================== HISTORIQUE ====================
 async function loadHistory() {
     try {
-        const response = await fetch('http://localhost:3000/api/history', {
+        const response = await fetch('https://cabine-service.onrender.com/api/history', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -257,7 +257,7 @@ if (updateForm) {
         statusDiv.style.color = 'blue';
         
         try {
-            const response = await fetch('http://localhost:3000/api/update-telegram', {
+            const response = await fetch('https://cabine-service.onrender.com/api/update-telegram', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
