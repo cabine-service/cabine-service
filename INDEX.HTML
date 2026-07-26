@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabine - Demande de taille</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- En-tête -->
+        <div class="header">
+            <h1>🔄 Besoin d'une autre taille ?</h1>
+            <p class="cabine-info">Cabine n° <span id="cabine-number">1</span></p>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="form-group">
+            <label for="size">Choisissez la taille souhaitée :</label>
+            <select id="size">
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M" selected>M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+            </select>
+        </div>
+
+        <!-- Bouton photo -->
+        <button id="takePhotoBtn">📸 Prendre une photo du vêtement</button>
+
+        <!-- Aperçu de la photo -->
+        <div id="previewContainer" style="display:none;">
+            <p>✅ Photo prise :</p>
+            <img id="previewImage" src="" alt="Aperçu">
+        </div>
+
+        <!-- Bouton envoyer -->
+        <button id="sendBtn" disabled>📤 Envoyer la demande</button>
+
+        <!-- Message de statut -->
+        <div id="statusMessage"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    max-width: 420px;
+    width: 100%;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.cabine-info {
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 25px;
+}
+
+.cabine-info span {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 20px;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    background: white;
+    appearance: none;
+    cursor: pointer;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+#takePhotoBtn {
+    background: #28a745;
+    color: white;
+}
+
+#takePhotoBtn:hover {
+    background: #218838;
+}
+
+#sendBtn {
+    background: #007bff;
+    color: white;
+}
+
+#sendBtn:hover:not(:disabled) {
+    background: #0069d9;
+}
+
+#sendBtn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#previewContainer {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+#previewImage {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+}
+
+#statusMessage {
+    margin-top: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    min-height: 30px;
+}
