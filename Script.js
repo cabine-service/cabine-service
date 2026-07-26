@@ -87,7 +87,7 @@ sendBtn.addEventListener('click', async function() {
         console.log('📤 Envoi de la demande...');
         console.log('📧 Email du magasin:', magasinEmail);
         
-        const response = await fetch('http://localhost:3000/api/request', {
+        const response = await fetch('https://cabine-service.onrender.com/api/request', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
