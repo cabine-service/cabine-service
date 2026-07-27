@@ -3,24 +3,18 @@ const urlParams = new URLSearchParams(window.location.search);
 const cabine = urlParams.get('cabine') || '1';
 document.getElementById('cabine-number').textContent = cabine;
 
-// 🔥 Récupérer l'email du magasin (depuis localStorage ou URL)
+// 🔥 Récupérer l'email du magasin
 let magasinEmail = urlParams.get('magasin');
 if (!magasinEmail) {
-    // Essayer de récupérer depuis localStorage (si le gérant est connecté)
     try {
         const shop = JSON.parse(localStorage.getItem('shop'));
         if (shop && shop.email) {
             magasinEmail = shop.email;
         }
-    } catch (e) {
-        console.log('⚠️ Aucun magasin trouvé dans localStorage');
-    }
+    } catch (e) {}
 }
-// Si toujours pas d'email, utiliser 'demo' par défaut
-if (!magasinEmail) {
-    magasinEmail = 'demo';
-}
-console.log('📧 Magasin utilisé pour les demandes:', magasinEmail);
+if (!magasinEmail) magasinEmail = 'demo';
+console.log('📧 Magasin utilisé:', magasinEmail);
 
 // Variables
 let photoData = null;
@@ -42,12 +36,7 @@ takePhotoBtn.addEventListener('click', function() {
     
     input.onchange = function(e) {
         const file = e.target.files[0];
-        if (!file) {
-            console.log('❌ Aucun fichier sélectionné');
-            return;
-        }
-
-        console.log('📸 Fichier sélectionné :', file.name);
+        if (!file) return;
 
         const reader = new FileReader();
         reader.onload = function(event) {
@@ -57,12 +46,6 @@ takePhotoBtn.addEventListener('click', function() {
             sendBtn.disabled = false;
             statusMessage.textContent = '✅ Photo prise, vous pouvez envoyer !';
             statusMessage.style.color = '#28a745';
-            console.log('✅ Photo chargée avec succès');
-        };
-        reader.onerror = function(error) {
-            console.error('❌ Erreur lecture fichier:', error);
-            statusMessage.textContent = '❌ Erreur lors du chargement de la photo';
-            statusMessage.style.color = 'red';
         };
         reader.readAsDataURL(file);
     };
@@ -78,25 +61,19 @@ sendBtn.addEventListener('click', async function() {
     }
 
     const taille = sizeSelect.value;
-
     sendBtn.disabled = true;
     sendBtn.textContent = '⏳ Envoi en cours...';
     statusMessage.textContent = '';
 
     try {
-        console.log('📤 Envoi de la demande...');
-        console.log('📧 Email du magasin:', magasinEmail);
-        
         const response = await fetch('https://cabine-service.onrender.com/api/request', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 cabine: cabine,
                 taille: taille,
                 photo: photoData,
-                magasin: magasinEmail  // 🔥 Utilise l'email récupéré
+                magasin: magasinEmail
             })
         });
 
@@ -107,21 +84,19 @@ sendBtn.addEventListener('click', async function() {
             statusMessage.style.color = '#28a745';
             sendBtn.textContent = '📤 Envoyer une autre demande';
             sendBtn.disabled = false;
-            console.log('✅ Demande envoyée avec succès');
         } else {
-            statusMessage.textContent = '❌ ' + (data.error || 'Erreur, réessayez.');
-            statusMessage.style.color = '#dc3545';
+            statusMessage.textContent = '❌ ' + (data.error || 'Erreur');
+            statusMessage.style.color = 'red';
             sendBtn.disabled = false;
             sendBtn.textContent = '📤 Envoyer la demande';
-            console.error('❌ Erreur réponse:', data);
         }
     } catch (error) {
-        console.error('❌ Erreur envoi:', error);
-        statusMessage.textContent = '❌ Problème de connexion au serveur. Vérifiez qu\'il est démarré.';
-        statusMessage.style.color = '#dc3545';
+        console.error('❌ Erreur:', error);
+        statusMessage.textContent = '❌ Erreur de connexion au serveur.';
+        statusMessage.style.color = 'red';
         sendBtn.disabled = false;
         sendBtn.textContent = '📤 Envoyer la demande';
     }
 });
 
-console.log('✅ Script client chargé avec succès');
+console.log('✅ Script client chargé');
