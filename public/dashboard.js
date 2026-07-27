@@ -27,25 +27,53 @@ if (shopData.abonnement_actif) {
 console.log('🔄 Initialisation WebSocket...');
 
 const socket = io('https://cabine-service.onrender.com', {
-    transports: ['websocket', 'polling'],
-    reconnection: true
+    transports: ['polling', 'websocket'],
+    reconnection: true,
+    reconnectionAttempts: 10,
+    reconnectionDelay: 1000
 });
 
+// Connexion réussie
 socket.on('connect', () => {
     console.log('✅ WebSocket connecté avec succès');
+    // Rejoindre le salon automatiquement
+    if (shopData && shopData.email) {
+        socket.emit('join-shop', shopData.email);
+        console.log('🔌 Salon rejoint:', shopData.email);
+    }
 });
 
+// Erreur de connexion
 socket.on('connect_error', (error) => {
     console.error('❌ Erreur de connexion WebSocket:', error);
 });
 
+// Déconnexion
+socket.on('disconnect', (reason) => {
+    console.log('🔌 WebSocket déconnecté:', reason);
+    if (reason === 'io server disconnect') {
+        socket.connect();
+    }
+});
+
+// Reconnexion réussie
+socket.on('reconnect', (attemptNumber) => {
+    console.log('🔄 WebSocket reconnecté après', attemptNumber, 'tentatives');
+    if (shopData && shopData.email) {
+        socket.emit('join-shop', shopData.email);
+        console.log('🔌 Salon rejoint après reconnexion:', shopData.email);
+    }
+});
+
 console.log('📧 Email du magasin:', shopData ? shopData.email : 'Aucun magasin');
 
+// Joindre le salon au chargement
 if (shopData && shopData.email) {
     socket.emit('join-shop', shopData.email);
     console.log('🔌 Rejoint le salon du magasin:', shopData.email);
 }
 
+// ==================== RÉCEPTION DES NOTIFICATIONS ====================
 socket.on('new-request', (data) => {
     console.log('🔥🔥🔥 NOUVELLE NOTIFICATION REÇUE !!! 🔥🔥🔥');
     console.log('📩 Données reçues:', data);
@@ -125,7 +153,7 @@ function generateQRCodes() {
     grid.innerHTML = '';
 
     for (let i = 1; i <= cabines; i++) {
-        const url = `https://cabine-service.onrender.com?magasin=${encodeURIComponent(shopData.email)}&cabine=${i}`;
+        const url = `https://cabine-service.onrender.com/home.html?magasin=${encodeURIComponent(shopData.email)}&cabine=${i}`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
 
         const item = document.createElement('div');
