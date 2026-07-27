@@ -89,14 +89,17 @@ socket.on('new-request', (data) => {
     list.insertBefore(notification, list.firstChild);
     
     // Limiter à 20 notifications
-    while (list.children.length > 20) {
+     while (list.children.length > 20) {
         list.removeChild(list.lastChild);
     }
     
-    // Son
+    // 🔥 Rafraîchir les statistiques
+    loadHistory();
+    
     const sound = document.getElementById('notificationSound');
     if (sound) {
         sound.play().catch(() => console.log('🔇 Son bloqué'));
+
     }
 });
 
