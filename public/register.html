@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Cabine Service</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container register-container">
+        <div class="header">
+            <h1>📝 Créer un compte</h1>
+            <p>Commencez à simplifier les essayages dans votre magasin</p>
+        </div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="shopName">Nom du magasin</label>
+                <input type="text" id="shopName" placeholder="Ma Boutique" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="contact@boutique.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input type="tel" id="phone" placeholder="+243 812 345 678" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" placeholder="Min 6 caractères" required minlength="6">
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirmer le mot de passe</label>
+                <input type="password" id="confirmPassword" placeholder="Retapez votre mot de passe" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cabines">Nombre de cabines</label>
+                <select id="cabines">
+                    <option value="1">1 cabine - 29€/mois</option>
+                    <option value="2">2 cabines - 39€/mois</option>
+                    <option value="3" selected>3 cabines - 49€/mois</option>
+                    <option value="4">4 cabines - 59€/mois</option>
+                    <option value="5">5 cabines - 69€/mois</option>
+                    <option value="10">10 cabines - 99€/mois</option>
+                </select>
+            </div>
+
+            <!-- 🔥 NOUVEAUX CHAMPS TELEGRAM -->
+            <div class="form-group">
+                <label for="telegramToken">🤖 Token Telegram du bot</label>
+                <input type="text" id="telegramToken" placeholder="Collez le token de votre bot" required>
+                <small style="color:#888; font-size:12px; display:block; margin-top:4px;">
+                    Créez un bot avec @BotFather sur Telegram et copiez le token
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="telegramChatId">🆔 Votre ID Telegram</label>
+                <input type="text" id="telegramChatId" placeholder="Obtenez-le avec @userinfobot" required>
+                <small style="color:#888; font-size:12px; display:block; margin-top:4px;">
+                    Envoyez /start à @userinfobot pour récupérer votre ID
+                </small>
+            </div>
+
+            <button type="submit" id="registerBtn" class="btn btn-register">💳 S'abonner maintenant</button>
+        </form>
+
+        <div id="statusMessage"></div>
+
+        <div class="footer">
+            <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
