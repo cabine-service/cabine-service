@@ -28,6 +28,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'unsupermotdepasse';
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
+app.use(express.static('Public'));
+app.use(express.static('.'));
+
 // ==================== SERVEUR HTTP + WEBSOCKET ====================
 const server = http.createServer(app);
 const io = socketIo(server, {
