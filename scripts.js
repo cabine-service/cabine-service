@@ -3,7 +3,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const cabine = urlParams.get('cabine') || '1';
 document.getElementById('cabine-number').textContent = cabine;
 
-// 🔥 Récupérer l'email du magasin
+// Récupérer l'email du magasin
 let magasinEmail = urlParams.get('magasin');
 if (!magasinEmail) {
     try {
@@ -28,16 +28,13 @@ const sizeSelect = document.getElementById('size');
 // 1. Prendre la photo
 takePhotoBtn.addEventListener('click', function() {
     console.log('🟢 Bouton "Prendre une photo" cliqué !');
-    
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
     input.capture = 'environment';
-    
     input.onchange = function(e) {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = function(event) {
             photoData = event.target.result;
@@ -49,7 +46,6 @@ takePhotoBtn.addEventListener('click', function() {
         };
         reader.readAsDataURL(file);
     };
-
     input.click();
 });
 
@@ -84,6 +80,16 @@ sendBtn.addEventListener('click', async function() {
             statusMessage.style.color = '#28a745';
             sendBtn.textContent = '📤 Envoyer une autre demande';
             sendBtn.disabled = false;
+
+            // 🔥 Reset du formulaire après 3 secondes
+            setTimeout(() => {
+                photoData = null;
+                previewImage.src = '';
+                previewContainer.style.display = 'none';
+                sendBtn.disabled = true;
+                statusMessage.textContent = '';
+                sendBtn.textContent = '📤 Envoyer la demande';
+            }, 3000);
         } else {
             statusMessage.textContent = '❌ ' + (data.error || 'Erreur');
             statusMessage.style.color = 'red';
