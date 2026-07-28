@@ -90,7 +90,7 @@ socket.on('new-request', (data) => {
         list.removeChild(list.lastChild);
     }
     
-    // 🔥 Rafraîchir les statistiques
+    // 🔥 Rafraîchir les statistiques APRÈS avoir reçu la notification
     loadHistory();
     
     const sound = document.getElementById('notificationSound');
@@ -128,23 +128,26 @@ document.getElementById('logoutBtn').addEventListener('click', function() {
     window.location.href = 'login.html';
 });
 
-// ==================== HISTORIQUE ====================
+// ==================== HISTORIQUE ET STATISTIQUES ====================
 async function loadHistory() {
+    console.log('🔄 Chargement de l\'historique...');
     try {
         const response = await fetch('https://cabine-service.onrender.com/api/history', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (response.ok) {
             const data = await response.json();
+            console.log('📊 Données reçues:', data.length, 'demandes');
             updateStats(data);
             updateHistoryTable(data);
+        } else {
+            console.error('❌ Erreur API:', response.status);
         }
     } catch (error) {
-        console.error('Erreur historique:', error);
+        console.error('❌ Erreur historique:', error);
     }
 }
 
-// ==================== STATISTIQUES COMPLÈTES ====================
 function updateStats(history) {
     const today = new Date().toDateString();
     const now = new Date();
@@ -167,9 +170,10 @@ function updateStats(history) {
     
     // Total
     document.getElementById('totalCount').textContent = history.length;
+    
+    console.log(`📊 Stats: Aujourd'hui=${todayCount}, Semaine=${weekCount}, Mois=${monthCount}, Total=${history.length}`);
 }
 
-// ==================== HISTORIQUE TABLEAU ====================
 function updateHistoryTable(history) {
     const tbody = document.getElementById('historyBody');
     if (!tbody) return;
@@ -190,7 +194,7 @@ function updateHistoryTable(history) {
     });
 }
 
-// Charger l'historique au démarrage
+// ==================== CHARGEMENT INITIAL ====================
 loadHistory();
 
 // ==================== GESTION TELEGRAM ====================
