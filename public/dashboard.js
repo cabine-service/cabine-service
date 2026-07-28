@@ -53,13 +53,11 @@ socket.on('new-request', (data) => {
     const list = document.getElementById('liveNotificationList');
     if (!list) return;
     
-    // Supprimer le message "En attente..."
     const placeholder = list.querySelector('p');
     if (placeholder && placeholder.style.color === '#999') {
         placeholder.remove();
     }
     
-    // Créer la notification
     const notification = document.createElement('div');
     notification.style.cssText = `
         padding: 12px;
@@ -88,8 +86,7 @@ socket.on('new-request', (data) => {
     
     list.insertBefore(notification, list.firstChild);
     
-    // Limiter à 20 notifications
-     while (list.children.length > 20) {
+    while (list.children.length > 20) {
         list.removeChild(list.lastChild);
     }
     
@@ -99,7 +96,6 @@ socket.on('new-request', (data) => {
     const sound = document.getElementById('notificationSound');
     if (sound) {
         sound.play().catch(() => console.log('🔇 Son bloqué'));
-
     }
 });
 
