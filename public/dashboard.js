@@ -216,6 +216,155 @@ function checkTelegramStatus() {
 }
 checkTelegramStatus();
 
+// ==================== TÉLÉCHARGER LES QR CODES ====================
+document.getElementById('downloadQrBtn').addEventListener('click', async function() {
+    const btn = this;
+    const originalText = btn.textContent;
+    btn.textContent = '⏳ Génération en cours...';
+    btn.disabled = true;
+
+    try {
+        const qrGrid = document.getElementById('qrGrid');
+        const qrItems = qrGrid.querySelectorAll('.qr-item');
+        
+        if (qrItems.length === 0) {
+            alert('Aucun QR Code à télécharger.');
+            btn.textContent = originalText;
+            btn.disabled = false;
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.style.cssText = `
+            position: fixed;
+            left: -9999px;
+            top: 0;
+            width: 800px;
+            padding: 40px;
+            background: white;
+            font-family: Arial, sans-serif;
+        `;
+        
+        const header = document.createElement('div');
+        header.style.cssText = `
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        `;
+        header.innerHTML = `
+            <h1 style="font-size: 28px; color: #333; margin: 0;">📱 QR Codes - ${shopData.nom}</h1>
+            <p style="font-size: 16px; color: #666; margin: 5px 0 0 0;">
+                Cabines d'essayage - Scannez pour demander une autre taille
+            </p>
+            <p style="font-size: 14px; color: #999; margin: 5px 0 0 0;">
+                Généré le ${new Date().toLocaleDateString()} à ${new Date().toLocaleTimeString()}
+            </p>
+        `;
+        container.appendChild(header);
+
+        const grid = document.createElement('div');
+        grid.style.cssText = `
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        `;
+
+        qrItems.forEach(item => {
+            const img = item.querySelector('img');
+            const label = item.querySelector('p');
+            
+            const card = document.createElement('div');
+            card.style.cssText = `
+                text-align: center;
+                padding: 15px;
+                border: 1px solid #e9ecef;
+                border-radius: 12px;
+                background: #f8f9fa;
+            `;
+            
+            const imgClone = img.cloneNode(true);
+            imgClone.style.cssText = `
+                width: 150px;
+                height: 150px;
+                margin-bottom: 10px;
+            `;
+            
+            const labelClone = document.createElement('p');
+            labelClone.style.cssText = `
+                font-size: 16px;
+                font-weight: bold;
+                color: #333;
+                margin: 5px 0;
+            `;
+            labelClone.textContent = label.textContent;
+            
+            const subLabel = document.createElement('p');
+            subLabel.style.cssText = `
+                font-size: 12px;
+                color: #888;
+                margin: 0;
+            `;
+            subLabel.textContent = 'Scanner pour demander une autre taille';
+            
+            card.appendChild(imgClone);
+            card.appendChild(labelClone);
+            card.appendChild(subLabel);
+            grid.appendChild(card);
+        });
+
+        container.appendChild(grid);
+
+        const footer = document.createElement('div');
+        footer.style.cssText = `
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            font-size: 12px;
+            color: #999;
+        `;
+        footer.innerHTML = `
+            Cabine Service - © ${new Date().getFullYear()} - Tous droits réservés
+        `;
+        container.appendChild(footer);
+
+        document.body.appendChild(container);
+
+        const canvas = await html2canvas(container, {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff'
+        });
+
+        document.body.removeChild(container);
+
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`QR_Codes_${shopData.nom}_${new Date().toISOString().slice(0,10)}.pdf`);
+
+        btn.textContent = '✅ Téléchargé avec succès !';
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }, 2000);
+
+    } catch (error) {
+        console.error('❌ Erreur:', error);
+        alert('Erreur lors de la génération du PDF.');
+        btn.textContent = originalText;
+        btn.disabled = false;
+    }
+});
+
+
 // ==================== ANIMATION ====================
 const style = document.createElement('style');
 style.textContent = `@keyframes slideIn { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }`;
