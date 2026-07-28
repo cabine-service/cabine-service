@@ -144,13 +144,32 @@ async function loadHistory() {
     }
 }
 
+// ==================== STATISTIQUES COMPLÈTES ====================
 function updateStats(history) {
     const today = new Date().toDateString();
+    const now = new Date();
+    
+    // Aujourd'hui
     const todayCount = history.filter(h => new Date(h.date).toDateString() === today).length;
     document.getElementById('todayCount').textContent = todayCount;
+    
+    // Cette semaine (7 derniers jours)
+    const weekAgo = new Date(now);
+    weekAgo.setDate(now.getDate() - 7);
+    const weekCount = history.filter(h => new Date(h.date) >= weekAgo).length;
+    document.getElementById('weekCount').textContent = weekCount;
+    
+    // Ce mois (30 derniers jours)
+    const monthAgo = new Date(now);
+    monthAgo.setDate(now.getDate() - 30);
+    const monthCount = history.filter(h => new Date(h.date) >= monthAgo).length;
+    document.getElementById('monthCount').textContent = monthCount;
+    
+    // Total
     document.getElementById('totalCount').textContent = history.length;
 }
 
+// ==================== HISTORIQUE TABLEAU ====================
 function updateHistoryTable(history) {
     const tbody = document.getElementById('historyBody');
     if (!tbody) return;
@@ -170,6 +189,8 @@ function updateHistoryTable(history) {
         tbody.appendChild(tr);
     });
 }
+
+// Charger l'historique au démarrage
 loadHistory();
 
 // ==================== GESTION TELEGRAM ====================
