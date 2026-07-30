@@ -295,12 +295,21 @@ app.post('/api/request', async (req, res) => {
     console.log(`   Magasin : ${magasin || 'demo'}`);
 
     try {
-        // 1. Récupérer les infos du magasin (token + chat_id)
+        // 1. Récupérer les infos du magasin
         const { data: shop, error: shopError } = await supabase
             .from('magasins')
-            .select('telegram_token, telegram_chat_id, nom')
+            .select('telegram_token, telegram_chat_id, nom, abonnement_actif')
             .eq('email', magasin)
             .single();
+
+        // 🔥 Vérifier si l'abonnement est actif
+        if (!shop || !shop.abonnement_actif) {
+            console.log(`⛔ Abonnement inactif pour ${magasin}`);
+            return res.status(403).json({
+                success: false,
+                error: 'Abonnement inactif. Veuillez contacter le gérant du magasin.'
+            });
+        }
 
         let token = process.env.TELEGRAM_TOKEN;
         let chatId = process.env.CHAT_ID;
