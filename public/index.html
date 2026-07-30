@@ -1,37 +1,152 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cabine Service - Simplifiez les essayages</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Cabine Service — Solution d’essayage pour magasins</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Cabine Service</h1>
-            <p>Simplifiez les essayages dans votre magasin</p>
-        </div>
 
-        <div class="presentation">
-            <p>Vos clients peuvent demander une autre taille directement depuis la cabine</p>
-            <ul>
-                <li>📸 Photo du vêtement</li>
-                <li>👕 Taille souhaitée</li>
-                <li>📱 Notification instantanée</li>
-            
-            </ul>
+    <!-- ========== EN-TÊTE ========== -->
+    <header class="header">
+        <div class="container header-inner">
+            <div class="logo">Cabine<span>Service</span></div>
+            <nav class="nav">
+                <a href="#fonctionnalites">Fonctionnalités</a>
+                <a href="#tarifs">Tarifs</a>
+                <a href="login.html" class="nav-link">Connexion</a>
+                <a href="register.html" class="btn btn-outline">S’inscrire</a>
+            </nav>
         </div>
+    </header>
 
-        <div class="buttons">
-            <a href="login.html" class="btn btn-login">Se connecter</a>
-            <a href="register.html" class="btn btn-register">S'inscrire</a>
+    <!-- ========== SECTION HÉRO ========== -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <h1>Une demande d’essayage,<br />une taille envoyée en cabine.</h1>
+            <p class="hero-desc">
+                Vos clients prennent une photo du vêtement, choisissent la taille,
+                et votre équipe reçoit la demande en temps réel.
+            </p>
+            <div class="hero-buttons">
+                <a href="register.html" class="btn btn-primary">Commencer l’essai gratuit</a>
+                <a href="#fonctionnalites" class="btn btn-outline">En savoir plus</a>
+            </div>
         </div>
+    </section>
 
-        <div class="footer">
-            <p>© 2026 Cabine Service - Tous droits réservés</p>
+    <!-- ========== FONCTIONNALITÉS ========== -->
+    <section class="section" id="fonctionnalites">
+        <div class="container">
+            <h2 class="section-title">Pourquoi Cabine Service ?</h2>
+            <div class="features">
+                <div class="feature">
+                    <h3>Cabine connectée</h3>
+                    <p>Le client envoie une photo et la taille souhaitée directement depuis la cabine.</p>
+                </div>
+                <div class="feature">
+                    <h3>Notification en temps réel</h3>
+                    <p>Vos vendeurs reçoivent la demande sur leur téléphone ou sur l’écran du magasin.</p>
+                </div>
+                <div class="feature">
+                    <h3>Historique et statistiques</h3>
+                    <p>Suivez les demandes, les tailles les plus demandées et améliorez votre stock.</p>
+                </div>
+                <div class="feature">
+                    <h3>Instantané et sans contact</h3>
+                    <p>Réduisez les allers-retours en cabine et améliorez l’expérience client.</p>
+                </div>
+            </div>
         </div>
-    </div>
-    <script src="script.js"></script>
+    </section>
+
+    <!-- ========== COMMENT ÇA MARCHE ========== -->
+    <section class="section section-light">
+        <div class="container">
+            <h2 class="section-title">En 3 étapes</h2>
+            <div class="steps">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <h3>Le client scanne le QR code</h3>
+                    <p>Dans la cabine, il flashe le code avec son téléphone.</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <h3>Il envoie une photo et la taille</h3>
+                    <p>La demande est transmise instantanément au personnel.</p>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <h3>Vous apportez la bonne taille</h3>
+                    <p>Le vendeur reçoit la notification et apporte le vêtement en cabine.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TARIFS ========== -->
+    <section class="section" id="tarifs">
+        <div class="container">
+            <h2 class="section-title">Tarifs simples</h2>
+            <p class="section-subtitle">10 $ par cabine par mois, sans engagement.</p>
+            <div class="pricing">
+                <div class="pricing-card">
+                    <h3>1 cabine</h3>
+                    <p class="price">10 $ <span class="price-local">(~ 28 000 FC)</span></p>
+                    <p class="price-desc">Idéal pour les petites boutiques.</p>
+                    <a href="register.html" class="btn btn-primary">Commencer</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>3 cabines</h3>
+                    <p class="price">30 $ <span class="price-local">(~ 84 000 FC)</span></p>
+                    <p class="price-desc">Le plus populaire pour les magasins de taille moyenne.</p>
+                    <a href="register.html" class="btn btn-primary">Commencer</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>5 cabines</h3>
+                    <p class="price">50 $ <span class="price-local">(~ 140 000 FC)</span></p>
+                    <p class="price-desc">Pour les grandes surfaces et enseignes.</p>
+                    <a href="register.html" class="btn btn-primary">Commencer</a>
+                </div>
+            </div>
+            <p class="pricing-note">Taux indicatif : 1 $ ≈ 2 800 FC</p>
+        </div>
+    </section>
+
+    <!-- ========== APPEL À L’ACTION ========== -->
+    <section class="section section-dark">
+        <div class="container cta">
+            <h2>Prêt à simplifier les essayages ?</h2>
+            <p>Inscrivez votre magasin et offrez une meilleure expérience à vos clients dès aujourd’hui.</p>
+            <a href="register.html" class="btn btn-primary">Commencer l’essai gratuit</a>
+        </div>
+    </section>
+
+    <!-- ========== PIED DE PAGE ========== -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-col">
+                <div class="logo">Cabine<span>Service</span></div>
+                <p>Solution d’essayage connectée pour magasins.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Pages</h4>
+                <a href="#fonctionnalites">Fonctionnalités</a>
+                <a href="#tarifs">Tarifs</a>
+                <a href="register.html">Inscription</a>
+                <a href="login.html">Connexion</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>contact@cabineservice.com</p>
+                <p>+243 999 999 999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Cabine Service — Tous droits réservés</p>
+        </div>
+    </footer>
+
 </body>
 </html>
