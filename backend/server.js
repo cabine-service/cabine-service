@@ -187,9 +187,9 @@ app.post('/api/login', async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Email et mot de passe requis' 
+            return res.status(400).json({
+                success: false,
+                error: 'Email et mot de passe requis'
             });
         }
 
@@ -200,20 +200,22 @@ app.post('/api/login', async (req, res) => {
             .single();
 
         if (findError || !shop) {
-            return res.status(401).json({ 
-                success: false, 
-                error: 'Email ou mot de passe incorrect' 
+            return res.status(401).json({
+                success: false,
+                error: 'Email ou mot de passe incorrect'
             });
         }
 
+        // Vérifier le mot de passe
         const isValidPassword = await bcrypt.compare(password, shop.mot_de_passe);
         if (!isValidPassword) {
-            return res.status(401).json({ 
-                success: false, 
-                error: 'Email ou mot de passe incorrect' 
+            return res.status(401).json({
+                success: false,
+                error: 'Email ou mot de passe incorrect'
             });
         }
 
+        // Générer un token JWT
         const token = jwt.sign(
             { id: shop.id, email: shop.email },
             JWT_SECRET,
@@ -236,9 +238,9 @@ app.post('/api/login', async (req, res) => {
 
     } catch (error) {
         console.error('❌ Erreur connexion:', error);
-        res.status(500).json({ 
-            success: false, 
-            error: 'Erreur interne du serveur' 
+        res.status(500).json({
+            success: false,
+            error: 'Erreur interne du serveur'
         });
     }
 });
