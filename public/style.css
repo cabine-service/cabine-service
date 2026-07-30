@@ -32,7 +32,7 @@ h1 {
 h2 {
   font-size: 2rem;
   margin-bottom: 8px;
-  color: #ffffff;
+  color: #0b1a2e;
 }
 
 h3 {
@@ -94,12 +94,12 @@ h3 {
 .logo {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #0b1a2e;
+  color: #ffffff;
 }
 
 .logo span {
   font-weight: 300;
-  color: #6b7a8a;
+  color: #ffffff;
 }
 
 .nav {
@@ -111,13 +111,13 @@ h3 {
 
 .nav a {
   text-decoration: none;
-  color: #1e2a3a;
+  color: #ffffff;
   font-weight: 500;
   font-size: 0.95rem;
 }
 
 .nav a:hover {
-  color: #0b1a2e;
+  color: #ffffff;
 }
 
 /* ===== HÉRO ===== */
