@@ -6,6 +6,17 @@ if (!token || !shopData) {
     window.location.href = 'login.html';
 }
 
+// ==================== DEMANDER L'AUTORISATION POUR LES NOTIFICATIONS PUSH ====================
+if ('Notification' in window) {
+    Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+            console.log('✅ Notifications push autorisées');
+        } else {
+            console.log('⚠️ Notifications push refusées');
+        }
+    });
+}
+
 // ==================== AFFICHAGE DES INFOS MAGASIN ====================
 document.getElementById('shopName').textContent = shopData.nom;
 document.getElementById('profileName').textContent = shopData.nom;
@@ -86,11 +97,20 @@ socket.on('new-request', (data) => {
     
     list.insertBefore(notification, list.firstChild);
     
-    while (list.children.length > 20) {
+    // 🔥 Garder seulement les 3 dernières notifications
+    while (list.children.length > 3) {
         list.removeChild(list.lastChild);
     }
     
-    // 🔥 Rafraîchir les statistiques APRÈS avoir reçu la notification
+    // 🔥 Notification push même si l'onglet est réduit
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('🔔 Nouvelle demande - Cabine Service', {
+            body: `Cabine ${data.cabine} - Taille ${data.taille}`,
+            icon: 'https://cdn-icons-png.flaticon.com/512/681/681858.png'
+        });
+    }
+    
+    // Rafraîchir les statistiques
     loadHistory();
     
     const sound = document.getElementById('notificationSound');
@@ -152,23 +172,19 @@ function updateStats(history) {
     const today = new Date().toDateString();
     const now = new Date();
     
-    // Aujourd'hui
     const todayCount = history.filter(h => new Date(h.date).toDateString() === today).length;
     document.getElementById('todayCount').textContent = todayCount;
     
-    // Cette semaine (7 derniers jours)
     const weekAgo = new Date(now);
     weekAgo.setDate(now.getDate() - 7);
     const weekCount = history.filter(h => new Date(h.date) >= weekAgo).length;
     document.getElementById('weekCount').textContent = weekCount;
     
-    // Ce mois (30 derniers jours)
     const monthAgo = new Date(now);
     monthAgo.setDate(now.getDate() - 30);
     const monthCount = history.filter(h => new Date(h.date) >= monthAgo).length;
     document.getElementById('monthCount').textContent = monthCount;
     
-    // Total
     document.getElementById('totalCount').textContent = history.length;
     
     console.log(`📊 Stats: Aujourd'hui=${todayCount}, Semaine=${weekCount}, Mois=${monthCount}, Total=${history.length}`);
@@ -194,7 +210,6 @@ function updateHistoryTable(history) {
     });
 }
 
-// ==================== CHARGEMENT INITIAL ====================
 loadHistory();
 
 // ==================== GESTION TELEGRAM ====================
@@ -363,7 +378,6 @@ document.getElementById('downloadQrBtn').addEventListener('click', async functio
         btn.disabled = false;
     }
 });
-
 
 // ==================== ANIMATION ====================
 const style = document.createElement('style');
