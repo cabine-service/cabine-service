@@ -427,6 +427,115 @@ app.post('/api/update-telegram', async (req, res) => {
     }
 });
 
+// ==================== ADMIN ====================
+
+// Middleware pour vérifier si l'utilisateur est admin
+function isAdmin(req, res, next) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'Token manquant' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        if (decoded.email !== 'admin@cabineservice.com') {
+            return res.status(403).json({ error: 'Accès non autorisé' });
+        }
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({ error: 'Token invalide' });
+    }
+}
+
+// Récupérer tous les magasins (admin uniquement)
+app.get('/api/admin/magasins', isAdmin, async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('magasins')
+            .select('*')
+            .order('id', { ascending: false });
+
+        if (error) throw error;
+        res.json(data);
+    } catch (error) {
+        console.error('❌ Erreur admin:', error);
+        res.status(500).json({ error: 'Erreur lors de la récupération' });
+    }
+});
+
+// Activer/Désactiver un magasin (admin uniquement)
+app.put('/api/admin/magasins/:id', isAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { abonnement_actif } = req.body;
+
+        const { data, error } = await supabase
+            .from('magasins')
+            .update({ abonnement_actif })
+            .eq('id', id)
+            .select();
+
+        if (error) throw error;
+        res.json(data[0]);
+    } catch (error) {
+        console.error('❌ Erreur mise à jour:', error);
+        res.status(500).json({ error: 'Erreur lors de la mise à jour' });
+    }
+});
+
+// Supprimer un magasin (admin uniquement)
+app.delete('/api/admin/magasins/:id', isAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const { error } = await supabase
+            .from('magasins')
+            .delete()
+            .eq('id', id);
+
+        if (error) throw error;
+        res.json({ success: true });
+    } catch (error) {
+        console.error('❌ Erreur suppression:', error);
+        res.status(500).json({ error: 'Erreur lors de la suppression' });
+    }
+});
+
+// Statistiques globales (admin uniquement)
+app.get('/api/admin/stats', isAdmin, async (req, res) => {
+    try {
+        // Nombre total de magasins
+        const { count: magasinsCount, error: err1 } = await supabase
+            .from('magasins')
+            .select('*', { count: 'exact', head: true });
+
+        // Nombre total de demandes
+        const { count: demandesCount, error: err2 } = await supabase
+            .from('demandes')
+            .select('*', { count: 'exact', head: true });
+
+        // Nombre de magasins actifs
+        const { count: actifsCount, error: err3 } = await supabase
+            .from('magasins')
+            .select('*', { count: 'exact', head: true })
+            .eq('abonnement_actif', true);
+
+        if (err1 || err2 || err3) throw err1 || err2 || err3;
+
+        res.json({
+            magasins: magasinsCount || 0,
+            demandes: demandesCount || 0,
+            actifs: actifsCount || 0
+        });
+    } catch (error) {
+        console.error('❌ Erreur stats:', error);
+        res.status(500).json({ error: 'Erreur lors de la récupération des stats' });
+    }
+});
+
+
 // ==================== DÉMARRER LE SERVEUR ====================
 server.listen(PORT, () => {
     console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
