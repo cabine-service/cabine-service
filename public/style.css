@@ -8,7 +8,7 @@
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: #0A192F;
-  color: #1e1e2a;
+  color: #FFFFFF;
   line-height: 1.6;
 }
 
@@ -292,7 +292,7 @@ h3 {
 
 /* ===== FOOTER ===== */
 .footer {
-  background: #2F2F2F;
+  background: #FFFFFF;
   border-top: 1px solid #eaeef2;
   padding: 40px 0 16px;
 }
