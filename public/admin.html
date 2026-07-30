@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administration — Cabine Service</title>
+    <link rel="stylesheet" href="admin.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- ===== HEADER ADMIN ===== -->
+    <header class="admin-header">
+        <div class="container header-inner">
+            <div class="logo">Cabine<span>Admin</span></div>
+            <nav class="nav">
+                <span id="adminEmail" style="color: #b0c4de;">admin@cabineservice.com</span>
+                <button id="logoutBtn" class="btn btn-outline">Déconnexion</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== STATISTIQUES ===== -->
+    <section class="section section-white">
+        <div class="container">
+            <h2 class="section-title">📊 Vue d'ensemble</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>📦 Magasins</h3>
+                    <p id="totalMagasins">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>📩 Demandes</h3>
+                    <p id="totalDemandes">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>📈 Abonnements actifs</h3>
+                    <p id="totalActifs">0</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TABLEAU DES MAGASINS ===== -->
+    <section class="section section-light">
+        <div class="container">
+            <h2 class="section-title" style="color: #ffffff;">📋 Liste des magasins</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Cabines</th>
+                            <th>Abonnement</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="magasinsTableBody">
+                        <tr><td colspan="7" style="text-align:center;color:#b0c4de;">Chargement...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script src="admin.js"></script>
+</body>
+</html>
