@@ -132,7 +132,7 @@ h3 {
 
 .hero-desc {
   font-size: 1.2rem;
-  color: #2e3b4b;
+  color: #ffffff;
   margin: 16px 0 32px;
 }
 
@@ -189,7 +189,7 @@ h3 {
 }
 
 .feature p {
-  color: #3d4a5a;
+  color: #ffffff;
   font-size: 0.95rem;
 }
 
@@ -213,12 +213,12 @@ h3 {
   display: inline-block;
   font-size: 2rem;
   font-weight: 600;
-  color: #b0bec5;
+  color: black;
   margin-bottom: 8px;
 }
 
 .step p {
-  color: #3d4a5a;
+  color: black;
   font-size: 0.95rem;
 }
 
@@ -253,7 +253,7 @@ h3 {
   font-size: 2rem;
   font-weight: 600;
   margin: 12px 0 4px;
-  color: #0b1a2e;
+  color: #ffffff;
 }
 
 .price-local {
@@ -264,14 +264,14 @@ h3 {
 }
 
 .price-desc {
-  color: #4a5a6a;
+  color: #ffffff;
   margin: 8px 0 20px;
 }
 
 .pricing-note {
   text-align: center;
   font-size: 0.85rem;
-  color: #6b7a8a;
+  color: #ffffff;
   margin-top: 24px;
 }
 
