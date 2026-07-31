@@ -30,11 +30,19 @@
                 <input type="tel" id="phone" placeholder="+243 999 999 999" required />
 
                 <label for="password">Mot de passe</label>
-                <input type="password" id="password" placeholder="Min. 6 caractères" minlength="6" required />
-
+                <div style="position:relative;">
+                    <input type="password" id="password" placeholder="••••••••" required style="padding-right: 48px;" />
+                    <button type="button" id="togglePassword" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; font-size:1.2rem;">
+                        👁️
+                    </button>
+                </div>
                 <label for="confirmPassword">Confirmer le mot de passe</label>
-                <input type="password" id="confirmPassword" placeholder="Retapez le mot de passe" required />
-
+                <div style="position:relative;">
+                    <input type="password" id="password" placeholder="••••••••" required style="padding-right: 48px;" />
+                    <button type="button" id="togglePassword" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; font-size:1.2rem;">
+                        👁️
+                    </button>
+                </div>
                 <label for="cabines">Nombre de cabines</label>
                 <select id="cabines">
                     <option value="1">1 cabine — 10 $ / mois (~ 28 000 FC)</option>
