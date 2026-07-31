@@ -6,34 +6,29 @@
     <title>Connexion — Cabine Service</title>
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
-    <style>
-        .auth-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bordeaux-fonce);
-            padding: 24px;
-        }
-    </style>
 </head>
 <body>
 
     <div class="auth-page">
         <div class="auth-card">
-            <a href="/" class="logo-link" style="justify-content:center; margin-bottom:16px;">
+            <a href="/" class="logo-link">
                 <img src="logo.png" alt="Cabine Service" class="logo-img" />
             </a>
             <h1>Connexion</h1>
             <p>Accédez à votre espace gérant</p>
+
             <form id="loginForm">
                 <label for="email">Email</label>
                 <input type="email" id="email" placeholder="ex: contact@boutique.com" required />
+
                 <label for="password">Mot de passe</label>
                 <input type="password" id="password" placeholder="••••••••" required />
+
                 <button type="submit" class="btn">Se connecter</button>
             </form>
+
             <div id="loginStatus"></div>
+
             <div class="footer-links">
                 Pas encore de compte ? <a href="register.html">S'inscrire</a>
             </div>
@@ -43,24 +38,31 @@
     <script>
         const loginForm = document.getElementById('loginForm');
         const loginStatus = document.getElementById('loginStatus');
+
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
+
             loginStatus.innerHTML = '⏳ Connexion en cours...';
             loginStatus.style.color = 'var(--marron-fonce)';
+
             try {
                 const response = await fetch('https://cabine-service.onrender.com/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
+
                 const data = await response.json();
+
                 if (response.ok && data.success) {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('shop', JSON.stringify(data.shop));
+
                     loginStatus.innerHTML = '✅ Connexion réussie, redirection...';
                     loginStatus.style.color = '#1a7a3a';
+
                     if (email === 'admin@cabineservice.com') {
                         setTimeout(() => window.location.href = 'admin.html', 1000);
                     } else {
