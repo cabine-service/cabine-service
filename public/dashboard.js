@@ -378,6 +378,54 @@ document.getElementById('downloadQrBtn').addEventListener('click', async functio
         btn.disabled = false;
     }
 });
+// ==================== CHANGER LE MOT DE PASSE ====================
+document.getElementById('changePasswordForm')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const oldPassword = document.getElementById('oldPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmNewPassword').value;
+    const status = document.getElementById('changePasswordStatus');
+
+    if (newPassword !== confirmPassword) {
+        status.innerHTML = '❌ Les nouveaux mots de passe ne correspondent pas';
+        status.style.color = '#b33c3c';
+        return;
+    }
+
+    if (newPassword.length < 6) {
+        status.innerHTML = '❌ Le mot de passe doit faire au moins 6 caractères';
+        status.style.color = '#b33c3c';
+        return;
+    }
+
+    const token = localStorage.getItem('token');
+
+    try {
+        const response = await fetch('https://cabine-service.onrender.com/api/change-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ oldPassword, newPassword })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            status.innerHTML = '✅ Mot de passe mis à jour avec succès !';
+            status.style.color = '#1a7a3a';
+            document.getElementById('changePasswordForm').reset();
+        } else {
+            status.innerHTML = '❌ ' + (data.error || 'Erreur');
+            status.style.color = '#b33c3c';
+        }
+    } catch (error) {
+        status.innerHTML = '❌ Erreur de connexion au serveur.';
+        status.style.color = '#b33c3c';
+    }
+});
 
 // ==================== ANIMATION ====================
 const style = document.createElement('style');
