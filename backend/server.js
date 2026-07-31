@@ -607,6 +607,95 @@ app.post('/api/change-password', async (req, res) => {
     }
 });
 
+// ==================== MOT DE PASSE OUBLIÉ ====================
+
+// Générer un token de réinitialisation
+app.post('/api/forgot-password', async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ error: 'Email requis' });
+    }
+
+    try {
+        // Vérifier si l'email existe
+        const { data: shop, error } = await supabase
+            .from('magasins')
+            .select('email')
+            .eq('email', email)
+            .single();
+
+        if (error || !shop) {
+            return res.status(404).json({ error: 'Email introuvable' });
+        }
+
+        // Générer un token JWT valable 15 minutes
+        const resetToken = jwt.sign(
+            { email: email },
+            JWT_SECRET,
+            { expiresIn: '15m' }
+        );
+
+        // Lien de réinitialisation
+        const resetLink = `https://cabine-service.onrender.com/reset-password.html?token=${resetToken}`;
+
+        // TODO: Envoyer l'email avec le lien (avec Resend, SendGrid, etc.)
+        console.log('🔗 Lien de réinitialisation :', resetLink);
+
+        // ⚠️ Pour l'instant, on affiche le lien dans la console (à remplacer par un vrai email)
+        res.json({
+            success: true,
+            message: 'Un lien de réinitialisation a été envoyé à votre email.'
+        });
+
+    } catch (error) {
+        console.error('❌ Erreur forgot-password:', error);
+        res.status(500).json({ error: 'Erreur interne du serveur' });
+    }
+});
+
+// Réinitialiser le mot de passe
+app.post('/api/reset-password', async (req, res) => {
+    const { token, newPassword } = req.body;
+
+    if (!token || !newPassword) {
+        return res.status(400).json({ error: 'Token et mot de passe requis' });
+    }
+
+    if (newPassword.length < 6) {
+        return res.status(400).json({ error: 'Mot de passe trop court (min. 6 caractères)' });
+    }
+
+    try {
+        // Vérifier le token
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const email = decoded.email;
+
+        // Hacher le nouveau mot de passe
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Mettre à jour
+        const { error: updateError } = await supabase
+            .from('magasins')
+            .update({ mot_de_passe: hashedPassword })
+            .eq('email', email);
+
+        if (updateError) {
+            console.error('❌ Erreur mise à jour:', updateError);
+            return res.status(500).json({ error: 'Erreur lors de la mise à jour' });
+        }
+
+        res.json({ success: true, message: 'Mot de passe réinitialisé avec succès' });
+
+    } catch (error) {
+        console.error('❌ Erreur reset-password:', error);
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Lien expiré (15 minutes max)' });
+        }
+        res.status(500).json({ error: 'Token invalide' });
+    }
+});
+
 // ==================== DÉMARRER LE SERVEUR ====================
 server.listen(PORT, () => {
     console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
