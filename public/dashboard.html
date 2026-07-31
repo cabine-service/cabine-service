@@ -56,7 +56,19 @@
                 </table>
             </div>
         </section>
-
+        <section class="section section-dark">
+            <h2 style="text-align:center; color:#fff;">🔐 Changer le mot de passe</h2>
+            <form id="changePasswordForm" style="max-width:400px; margin:0 auto;">
+                <label for="oldPassword" style="color:#fff;">Ancien mot de passe</label>
+                <input type="password" id="oldPassword" placeholder="Ancien mot de passe" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--marron-clair); background:var(--blanc-casse);" required />
+                <label for="newPassword" style="color:#fff;">Nouveau mot de passe</label>
+                <input type="password" id="newPassword" placeholder="Nouveau mot de passe" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--marron-clair); background:var(--blanc-casse);" required />
+                <label for="confirmNewPassword" style="color:#fff;">Confirmer le nouveau mot de passe</label>
+                <input type="password" id="confirmNewPassword" placeholder="Confirmer" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--marron-clair); background:var(--blanc-casse);" required />
+                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:12px;">Mettre à jour</button>
+            </form>
+            <div id="changePasswordStatus" style="text-align:center; margin-top:12px; font-weight:500;"></div>
+        </section>
         <section class="section section-dark">
             <h2 style="text-align:center; color:#fff;">🤖 Configuration Telegram</h2>
             <div id="telegramStatus"></div>
