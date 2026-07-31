@@ -6,6 +6,21 @@
   <title>Cabine Service — Solution d’essayage pour magasins</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
+  <!-- ===== PWA ===== -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta name="theme-color" content="#0b1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <script>
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js')
+              .then(reg => console.log('✅ Service Worker enregistré'))
+              .catch(err => console.error('❌ Erreur SW:', err));
+      }
+  </script>
+
 </head>
 <body>
 
