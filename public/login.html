@@ -24,8 +24,12 @@
                 <input type="email" id="email" placeholder="ex: contact@boutique.com" required />
 
                 <label for="password">Mot de passe</label>
-                <input type="password" id="password" placeholder="••••••••" required />
-
+                <div style="position:relative;">
+                    <input type="password" id="password" placeholder="••••••••" required style="padding-right: 48px;" />
+                    <button type="button" id="togglePassword" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; font-size:1.2rem;">
+                        👁️
+                    </button>
+                </div>
                 <button type="submit" class="btn">Se connecter</button>
             </form>
 
