@@ -161,6 +161,9 @@
       <small>Envoyez /start à @userinfobot pour récupérer votre ID</small>
 
       <button type="submit" class="btn">S'abonner maintenant</button>
+      <button id="installAppBtn" class="btn" style="display:none; margin-top: 16px; background: #28a745; color: white;">
+    📲 Installer l'application </button>
+
     </form>
     <div id="registerStatus"></div>
     <div class="footer-links">
@@ -217,5 +220,41 @@
       }
     });
   </script>
+  <script>
+    // ==================== INSTALLATION PWA ====================
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Empêcher la bannière par défaut
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Afficher le bouton d'installation personnalisé
+        const installBtn = document.getElementById('installAppBtn');
+        installBtn.style.display = 'block';
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Afficher la fenêtre d'installation
+                deferredPrompt.prompt();
+                const result = await deferredPrompt.userChoice;
+                console.log('✅ Résultat installation:', result.outcome);
+                deferredPrompt = null;
+
+                // Cacher le bouton après installation
+                if (result.outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                }
+            }
+        });
+    });
+
+    // Si l'app est déjà installée, cacher le bouton
+    window.addEventListener('appinstalled', () => {
+        console.log('✅ App installée avec succès');
+        document.getElementById('installAppBtn').style.display = 'none';
+    });
+</script>
+
 </body>
 </html>
