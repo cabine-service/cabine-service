@@ -1,132 +1,86 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de bord - Cabine Service</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="dashboard.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tableau de bord — Cabine Service</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- En-tête -->
-        <header class="dashboard-header">
-            <div class="header-left">
-                <h1>Cabine Service</h1>
-                <span class="shop-name" id="shopName">Mon Magasin</span>
-            </div>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="/" class="logo-link">
+                <img src="logo.png" alt="Cabine Service" class="logo-img" />
+            </a>
             <div class="header-right">
+                <span class="shop-name" id="shopName">Mon Magasin</span>
                 <span class="status-badge" id="statusBadge">🟢 Actif</span>
-                <button id="logoutBtn" class="btn-logout">🚪 Déconnexion</button>
+                <button id="logoutBtn" class="btn btn-outline">Déconnexion</button>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Contenu principal -->
-        <main class="dashboard-main">
-            <!-- Statistiques -->
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <h3>📊 Demandes aujourd'hui</h3>
-                    <p class="stat-number" id="todayCount">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>📈 Cette semaine</h3>
-                    <p class="stat-number" id="weekCount">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>📅 Ce mois</h3>
-                    <p class="stat-number" id="monthCount">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>🔄 Demandes totales</h3>
-                    <p class="stat-number" id="totalCount">0</p>
-                </div>
-            </section>
+    <main class="dashboard-main">
+        <section class="stats-grid">
+            <div class="stat-card"><h3>📊 Demandes aujourd'hui</h3><p id="todayCount">0</p></div>
+            <div class="stat-card"><h3>📈 Cette semaine</h3><p id="weekCount">0</p></div>
+            <div class="stat-card"><h3>📅 Ce mois</h3><p id="monthCount">0</p></div>
+            <div class="stat-card"><h3>🔄 Demandes totales</h3><p id="totalCount">0</p></div>
+        </section>
 
-            <!-- 🔥 NOTIFICATIONS EN DIRECT (NOUVEAU) -->
-            <section class="live-notifications" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px;">
-                <h2>🔔 Notifications en direct</h2>
-                <div id="liveNotificationList" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 10px; background: #f8f9fa;">
-                    <p style="color: #999; text-align: center;">En attente de nouvelles demandes...</p>
-                </div>
-                <audio id="notificationSound" src="https://www.soundjay.com/button/beep-07.mp3" preload="auto"></audio>
-            </section>
+        <section class="section section-white">
+            <h2 style="text-align:center;">🔔 Notifications en direct</h2>
+            <div id="liveNotificationList" style="max-height:300px; overflow-y:auto; border:1px solid var(--marron-clair); border-radius:8px; padding:10px; background:var(--blanc-casse);">
+                <p style="color:var(--marron-clair); text-align:center;">En attente de nouvelles demandes...</p>
+            </div>
+            <audio id="notificationSound" src="https://www.soundjay.com/button/beep-07.mp3" preload="auto"></audio>
+        </section>
 
-            <!-- QR Codes -->
-            <section class="qr-section">
-                <h2>📱 QR Codes pour les cabines</h2>
-                <div class="qr-grid" id="qrGrid">
-                    <!-- Généré par JavaScript -->
-                </div>
+        <section class="section section-dark">
+            <h2 style="text-align:center; color:#fff;">📱 QR Codes pour les cabines</h2>
+            <div class="qr-grid" id="qrGrid" style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:16px;"></div>
+            <div style="text-align:center; margin-top:16px;">
                 <button id="downloadQrBtn" class="btn btn-primary">📥 Télécharger tous les QR Codes</button>
-            </section>
+            </div>
+        </section>
 
-            <!-- Historique des demandes -->
-            <section class="history-section">
-                <h2>📋 Historique des demandes</h2>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Cabine</th>
-                                <th>Taille</th>
-                                <th>Date</th>
-                                <th>Photo</th>
-                            </tr>
-                        </thead>
-                        <tbody id="historyBody">
-                            <tr>
-                                <td colspan="4" style="text-align:center; color:#999;">
-                                    Aucune demande pour l'instant
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+        <section class="section section-white">
+            <h2 style="text-align:center;">📋 Historique des demandes</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Cabine</th><th>Taille</th><th>Date</th><th>Photo</th></tr></thead>
+                    <tbody id="historyBody"><tr><td colspan="4" style="text-align:center;color:var(--marron-clair);">Aucune demande</td></tr></tbody>
+                </table>
+            </div>
+        </section>
 
-            <!-- Configuration Telegram -->
-            <section class="telegram-section" id="telegramSection" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px;">
-                <h2>🤖 Configuration Telegram</h2>
-                <div id="telegramStatus"></div>
-                
-                <form id="updateTelegramForm" style="margin-top: 15px;">
-                    <div class="form-group">
-                        <label for="newTelegramToken">Nouveau token Telegram</label>
-                        <input type="text" id="newTelegramToken" placeholder="Collez le token de votre bot" required>
-                        <small style="color:#888; font-size:12px; display:block; margin-top:4px;">
-                            Créez un bot avec @BotFather sur Telegram
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <label for="newTelegramChatId">Votre ID Telegram</label>
-                        <input type="text" id="newTelegramChatId" placeholder="Obtenez-le avec @userinfobot" required>
-                        <small style="color:#888; font-size:12px; display:block; margin-top:4px;">
-                            Envoyez /start à @userinfobot pour récupérer votre ID
-                        </small>
-                    </div>
-                    <button type="submit" id="updateTelegramBtn" class="btn btn-primary">💾 Mettre à jour</button>
-                </form>
-                <div id="updateTelegramStatus" style="margin-top: 10px; font-weight: bold;"></div>
-            </section>
+        <section class="section section-dark">
+            <h2 style="text-align:center; color:#fff;">🤖 Configuration Telegram</h2>
+            <div id="telegramStatus"></div>
+            <form id="updateTelegramForm" style="max-width:500px; margin:16px auto;">
+                <label for="newTelegramToken">Nouveau token Telegram</label>
+                <input type="text" id="newTelegramToken" placeholder="Collez le token de votre bot" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--marron-clair); background:var(--blanc-casse);" required />
+                <label for="newTelegramChatId">Votre ID Telegram</label>
+                <input type="text" id="newTelegramChatId" placeholder="Obtenez-le avec @userinfobot" style="width:100%; padding:12px; border-radius:12px; border:1px solid var(--marron-clair); background:var(--blanc-casse);" required />
+                <button type="submit" class="btn btn-primary">💾 Mettre à jour</button>
+            </form>
+            <div id="updateTelegramStatus"></div>
+        </section>
 
-            <!-- Informations du magasin -->
-            <section class="profile-section">
-                <h2>ℹ️ Informations du magasin</h2>
-                <div class="profile-card">
-                    <p><strong>Nom :</strong> <span id="profileName">-</span></p>
-                    <p><strong>Email :</strong> <span id="profileEmail">-</span></p>
-                    <p><strong>Téléphone :</strong> <span id="profilePhone">-</span></p>
-                    <p><strong>Nombre de cabines :</strong> <span id="profileCabines">-</span></p>
-                    <p><strong>Abonnement :</strong> <span id="profileSubscription">-</span></p>
-                </div>
-            </section>
-        </main>
-    </div>
+        <section class="section section-white">
+            <h2 style="text-align:center;">ℹ️ Informations du magasin</h2>
+            <div style="max-width:500px; margin:0 auto;">
+                <p><strong>Nom :</strong> <span id="profileName">-</span></p>
+                <p><strong>Email :</strong> <span id="profileEmail">-</span></p>
+                <p><strong>Téléphone :</strong> <span id="profilePhone">-</span></p>
+                <p><strong>Nombre de cabines :</strong> <span id="profileCabines">-</span></p>
+                <p><strong>Abonnement :</strong> <span id="profileSubscription">-</span></p>
+            </div>
+        </section>
+    </main>
 
-    <!-- Inclusion des scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="dashboard.js"></script>
 </body>
