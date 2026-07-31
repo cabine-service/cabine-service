@@ -12,7 +12,6 @@
   <meta name="theme-color" content="#0b1a2e">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
   <script>
       if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/sw.js')
@@ -20,7 +19,6 @@
               .catch(err => console.error('❌ Erreur SW:', err));
       }
   </script>
-
 </head>
 <body>
 
@@ -130,6 +128,9 @@
       <h2>Prêt à simplifier les essayages ?</h2>
       <p>Inscrivez votre magasin et offrez une meilleure expérience à vos clients dès aujourd’hui.</p>
       <a href="register.html" class="btn btn-primary">Commencer l’essai gratuit</a>
+      <button id="installAppBtn" class="btn" style="display:none; margin-top: 16px; background: #28a745; color: white;">
+    📲 Installer l'application </button>
+
     </div>
   </section>
 
@@ -156,6 +157,41 @@
       <p>&copy; 2026 Cabine Service — Tous droits réservés</p>
     </div>
   </footer>
+  <script>
+    // ==================== INSTALLATION PWA ====================
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Empêcher la bannière par défaut
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Afficher le bouton d'installation personnalisé
+        const installBtn = document.getElementById('installAppBtn');
+        installBtn.style.display = 'block';
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Afficher la fenêtre d'installation
+                deferredPrompt.prompt();
+                const result = await deferredPrompt.userChoice;
+                console.log('✅ Résultat installation:', result.outcome);
+                deferredPrompt = null;
+
+                // Cacher le bouton après installation
+                if (result.outcome === 'accepted') {
+                    installBtn.style.display = 'none';
+                }
+            }
+        });
+    });
+
+    // Si l'app est déjà installée, cacher le bouton
+    window.addEventListener('appinstalled', () => {
+        console.log('✅ App installée avec succès');
+        document.getElementById('installAppBtn').style.display = 'none';
+    });
+</script>
 
 </body>
 </html>
