@@ -546,6 +546,66 @@ app.get('/api/admin/stats', isAdmin, async (req, res) => {
     }
 });
 
+// ==================== CHANGER LE MOT DE PASSE ====================
+app.post('/api/change-password', async (req, res) => {
+    try {
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ error: 'Token manquant' });
+        }
+
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const email = decoded.email;
+
+        const { oldPassword, newPassword } = req.body;
+
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({ error: 'Tous les champs sont requis' });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({ error: 'Le mot de passe doit faire au moins 6 caractères' });
+        }
+
+        // Récupérer le magasin
+        const { data: shop, error: findError } = await supabase
+            .from('magasins')
+            .select('*')
+            .eq('email', email)
+            .single();
+
+        if (findError || !shop) {
+            return res.status(404).json({ error: 'Magasin non trouvé' });
+        }
+
+        // Vérifier l'ancien mot de passe
+        const isValid = await bcrypt.compare(oldPassword, shop.mot_de_passe);
+        if (!isValid) {
+            return res.status(401).json({ error: 'Ancien mot de passe incorrect' });
+        }
+
+        // Hacher le nouveau mot de passe
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Mettre à jour
+        const { error: updateError } = await supabase
+            .from('magasins')
+            .update({ mot_de_passe: hashedPassword })
+            .eq('email', email);
+
+        if (updateError) {
+            console.error('❌ Erreur mise à jour:', updateError);
+            return res.status(500).json({ error: 'Erreur lors de la mise à jour' });
+        }
+
+        res.json({ success: true, message: 'Mot de passe mis à jour avec succès' });
+
+    } catch (error) {
+        console.error('❌ Erreur:', error);
+        res.status(500).json({ error: 'Erreur interne du serveur' });
+    }
+});
 
 // ==================== DÉMARRER LE SERVEUR ====================
 server.listen(PORT, () => {
