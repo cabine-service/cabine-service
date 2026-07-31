@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cabine - Demande de taille</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cabine — Demande de taille</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
 </head>
 <body>
 
     <div class="container">
-        <!-- En-tête -->
+        <a href="/" class="logo-link">
+            <img src="logo.png" alt="Cabine Service" class="logo-img" />
+        </a>
         <div class="header">
             <h1>Besoin d'une autre taille ?</h1>
             <p class="cabine-info">Cabine n° <span id="cabine-number">1</span></p>
         </div>
 
-        <!-- Formulaire -->
         <div class="form-group">
             <label for="size">Choisissez la taille souhaitée :</label>
             <select id="size">
@@ -28,19 +30,14 @@
             </select>
         </div>
 
-        <!-- Bouton photo -->
-        <button id="takePhotoBtn">📸 Prendre une photo du vêtement</button>
+        <button id="takePhotoBtn">Prendre une photo du vêtement</button>
 
-        <!-- Aperçu de la photo -->
         <div id="previewContainer" style="display:none;">
-            <p>✅ Photo prise :</p>
-            <img id="previewImage" src="" alt="Aperçu">
+            <p>Photo prise :</p>
+            <img id="previewImage" src="" alt="Aperçu" />
         </div>
 
-        <!-- Bouton envoyer -->
-        <button id="sendBtn" disabled>📤 Envoyer la demande</button>
-
-        <!-- Message de statut -->
+        <button id="sendBtn" disabled>Envoyer la demande</button>
         <div id="statusMessage"></div>
     </div>
 
