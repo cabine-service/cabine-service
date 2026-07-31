@@ -6,37 +6,33 @@
     <title>Inscription — Cabine Service</title>
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
-    <style>
-        .auth-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bordeaux-fonce);
-            padding: 24px;
-        }
-    </style>
 </head>
 <body>
 
     <div class="auth-page">
         <div class="auth-card">
-            <a href="/" class="logo-link" style="justify-content:center; margin-bottom:16px;">
+            <a href="/" class="logo-link">
                 <img src="logo.png" alt="Cabine Service" class="logo-img" />
             </a>
             <h1>Créer un compte</h1>
-            <p>Inscrivez votre magasin et simplifiez les essayages.</p>
+            <p>Inscrivez votre magasin en quelques minutes</p>
+
             <form id="registerForm">
                 <label for="shopName">Nom du magasin</label>
                 <input type="text" id="shopName" placeholder="Ma Boutique" required />
+
                 <label for="email">Email</label>
                 <input type="email" id="email" placeholder="contact@boutique.com" required />
+
                 <label for="phone">Téléphone</label>
                 <input type="tel" id="phone" placeholder="+243 999 999 999" required />
+
                 <label for="password">Mot de passe</label>
                 <input type="password" id="password" placeholder="Min. 6 caractères" minlength="6" required />
+
                 <label for="confirmPassword">Confirmer le mot de passe</label>
                 <input type="password" id="confirmPassword" placeholder="Retapez le mot de passe" required />
+
                 <label for="cabines">Nombre de cabines</label>
                 <select id="cabines">
                     <option value="1">1 cabine — 10 $ / mois (~ 28 000 FC)</option>
@@ -46,15 +42,20 @@
                     <option value="5">5 cabines — 50 $ / mois (~ 140 000 FC)</option>
                     <option value="10">10 cabines — 100 $ / mois (~ 280 000 FC)</option>
                 </select>
+
                 <label for="telegramToken">Token Telegram (bot)</label>
                 <input type="text" id="telegramToken" placeholder="Collez le token de votre bot" required />
                 <small>Créez un bot avec @BotFather sur Telegram</small>
+
                 <label for="telegramChatId">Votre ID Telegram</label>
                 <input type="text" id="telegramChatId" placeholder="Obtenez-le avec @userinfobot" required />
                 <small>Envoyez /start à @userinfobot pour récupérer votre ID</small>
+
                 <button type="submit" class="btn">S'abonner maintenant</button>
             </form>
+
             <div id="registerStatus"></div>
+
             <div class="footer-links">
                 Déjà un compte ? <a href="login.html">Se connecter</a>
             </div>
@@ -64,8 +65,10 @@
     <script>
         const registerForm = document.getElementById('registerForm');
         const registerStatus = document.getElementById('registerStatus');
+
         registerForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+
             const shopName = document.getElementById('shopName').value.trim();
             const email = document.getElementById('email').value.trim();
             const phone = document.getElementById('phone').value.trim();
@@ -80,11 +83,13 @@
                 registerStatus.style.color = '#b33c3c';
                 return;
             }
+
             if (!telegramToken || !telegramChatId) {
                 registerStatus.innerHTML = '❌ Veuillez configurer votre bot Telegram';
                 registerStatus.style.color = '#b33c3c';
                 return;
             }
+
             registerStatus.innerHTML = '⏳ Création du compte en cours...';
             registerStatus.style.color = 'var(--marron-fonce)';
 
@@ -92,12 +97,23 @@
                 const response = await fetch('https://cabine-service.onrender.com/api/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ shopName, email, phone, password, cabines, telegramToken, telegramChatId })
+                    body: JSON.stringify({
+                        shopName,
+                        email,
+                        phone,
+                        password,
+                        cabines,
+                        telegramToken,
+                        telegramChatId
+                    })
                 });
+
                 const data = await response.json();
+
                 if (response.ok && data.success) {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('shop', JSON.stringify(data.shop));
+
                     registerStatus.innerHTML = '✅ Compte créé ! Redirection...';
                     registerStatus.style.color = '#1a7a3a';
                     setTimeout(() => window.location.href = 'dashboard.html', 1500);
