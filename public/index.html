@@ -139,10 +139,43 @@
                 <p>+243 999 999 999</p>
             </div>
         </div>
+        <button id="installAppBtn" style="display:none; background:#7A1C2E; color:#fff; border:none; padding:12px 24px; border-radius:30px; font-size:1rem; cursor:pointer; margin-top:20px;">
+            📲 Télécharger l'application
+        </button>
         <div class="footer-bottom">
             <p>&copy; 2026 Cabine Service — Tous droits réservés</p>
         </div>
     </footer>
+    <script>
+    // ===== BOUTON D'INSTALLATION PWA =====
+        let deferredPrompt;
+        const installBtn = document.getElementById('installAppBtn');
+    
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (installBtn) {
+                installBtn.style.display = 'inline-block';
+                installBtn.addEventListener('click', () => {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        deferredPrompt.userChoice.then((result) => {
+                            if (result.outcome === 'accepted') {
+                                console.log('✅ App installée');
+                                installBtn.style.display = 'none';
+                            }
+                            deferredPrompt = null;
+                        });
+                    }
+                });
+            }
+        });
+    
+        // Si l'app est déjà installée, cacher le bouton
+        window.addEventListener('appinstalled', () => {
+            if (installBtn) installBtn.style.display = 'none';
+        });
+    </script>
 
 </body>
 </html>
