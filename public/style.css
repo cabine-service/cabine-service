@@ -12,6 +12,22 @@
     --blanc: #FFFFFF;
     --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
+/* ===== HEADER FIXE ===== */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 12px 0;
+    background: var(--bordeaux-fonce);
+    border-bottom: 1px solid var(--bordeaux-vif);
+    box-shadow: 0 2px 12px rgba(74, 14, 27, 0.15);
+}
+
+body {
+    padding-top: 76px;
+}
 
 /* ===== RESET ===== */
 * {
