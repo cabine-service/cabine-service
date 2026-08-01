@@ -9,7 +9,7 @@ if (!token || !shop || shop.email !== 'admin@cabineservice.com') {
 }
 
 // Afficher l'email admin
-document.getElementById('adminEmail').textContent = shop.email;
+//document.getElementById('adminEmail').textContent = shop.email;
 
 // ==================== DÉCONNEXION ====================
 document.getElementById('logoutBtn').addEventListener('click', function() {
