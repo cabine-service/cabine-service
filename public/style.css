@@ -12,6 +12,11 @@
     --blanc: #FFFFFF;
     --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
+
+#magasinsTableBody td{
+   color: #3B1F1A;
+   ]
+   
 /* ===== HEADER FIXE ===== */
 .header {
     position: fixed;
