@@ -8,9 +8,6 @@ if (!token || !shop || shop.email !== 'admin@cabineservice.com') {
     window.location.href = 'login.html';
 }
 
-// Afficher l'email admin
-//document.getElementById('adminEmail').textContent = shop.email;
-
 // ==================== DÉCONNEXION ====================
 document.getElementById('logoutBtn').addEventListener('click', function() {
     localStorage.clear();
@@ -59,6 +56,7 @@ async function loadMagasins() {
             return;
         }
 
+        // 🔥 CONSTRUCTION CORRECTE DU TABLEAU
         tbody.innerHTML = '';
         magasins.forEach(shop => {
             const tr = document.createElement('tr');
