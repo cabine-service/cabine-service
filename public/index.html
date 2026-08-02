@@ -147,33 +147,40 @@
         </div>
     </footer>
     <script>
-    // ===== BOUTON D'INSTALLATION PWA =====
+    // ===== BOUTON PWA PERMANENT =====
         let deferredPrompt;
         const installBtn = document.getElementById('installAppBtn');
     
+        // Écouter l'événement d'installation
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            if (installBtn) {
-                installBtn.style.display = 'inline-block';
-                installBtn.addEventListener('click', () => {
-                    if (deferredPrompt) {
-                        deferredPrompt.prompt();
-                        deferredPrompt.userChoice.then((result) => {
-                            if (result.outcome === 'accepted') {
-                                console.log('✅ App installée');
-                                installBtn.style.display = 'none';
-                            }
-                            deferredPrompt = null;
-                        });
-                    }
-                });
-            }
+            installBtn.style.display = 'block';
         });
     
-        // Si l'app est déjà installée, cacher le bouton
-        window.addEventListener('appinstalled', () => {
-            if (installBtn) installBtn.style.display = 'none';
+        // Si l'événement n'est jamais déclenché, on affiche quand même le bouton
+        setTimeout(() => {
+            installBtn.style.display = 'block';
+        }, 2000);
+    
+        // Clic sur le bouton
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Installation possible
+                deferredPrompt.prompt();
+                const result = await deferredPrompt.userChoice;
+                if (result.outcome === 'accepted') {
+                    console.log('✅ App installée avec succès');
+                    installBtn.textContent = '✅ App installée';
+                    installBtn.style.background = '#28a745';
+                }
+                deferredPrompt = null;
+            } else {
+                // Installation impossible → alternative
+                alert('📱 Ajoutez cette page à l\'écran d\'accueil :\n\n' +
+                      '• Android : Menu → "Ajouter à l\'écran d\'accueil"\n' +
+                      '• iPhone : Partager → "Ajouter à l\'écran d\'accueil"');
+            }
         });
     </script>
 
