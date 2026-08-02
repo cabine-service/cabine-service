@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
 </head>
 <body>
-
     <div class="auth-page">
         <div class="auth-card">
             <!-- ===== LOGO + TITRE ===== -->
@@ -47,7 +46,47 @@
                 Pas encore de compte ? <a href="register.html">S'inscrire</a>
             </div>
         </div>
+        <button id="installAppBtn" style="display:block; background:#7A1C2E; color:#fff; border:none; padding:12px 24px; border-radius:30px; font-size:1rem; cursor:pointer; margin:20px auto; width:fit-content;">
+    📲 Télécharger l'application
+        </button>
     </div>
+    <script>
+    // ===== BOUTON PWA PERMANENT =====
+        let deferredPrompt;
+        const installBtn = document.getElementById('installAppBtn');
+    
+        // Écouter l'événement d'installation
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
+    
+        // Si l'événement n'est jamais déclenché, on affiche quand même le bouton
+        setTimeout(() => {
+            installBtn.style.display = 'block';
+        }, 2000);
+    
+        // Clic sur le bouton
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Installation possible
+                deferredPrompt.prompt();
+                const result = await deferredPrompt.userChoice;
+                if (result.outcome === 'accepted') {
+                    console.log('✅ App installée avec succès');
+                    installBtn.textContent = '✅ App installée';
+                    installBtn.style.background = '#28a745';
+                }
+                deferredPrompt = null;
+            } else {
+                // Installation impossible → alternative
+                alert('📱 Ajoutez cette page à l\'écran d\'accueil :\n\n' +
+                      '• Android : Menu → "Ajouter à l\'écran d\'accueil"\n' +
+                      '• iPhone : Partager → "Ajouter à l\'écran d\'accueil"');
+            }
+        });
+    </script>
 
     <script>
         // ===== CONNEXION =====
